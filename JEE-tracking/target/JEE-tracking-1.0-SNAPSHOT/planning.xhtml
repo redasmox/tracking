@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+    <h:head>
+        <title>Facelet planning</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css?family=Orbitron');
+
+            body {
+                background-color: #000;
+                font-family: 'Orbitron', sans-serif;
+            }
+            .title-container {
+                display: flex;
+                justify-content: center;
+                font-size: 36px;
+                font-weight: bold;
+                color: #fff;
+                text-shadow: 0 0 10px #00f;
+            }
+            .form-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 2px solid #00f;
+                padding: 20px;
+                border-radius: 20px;
+                box-shadow: inset 0 0 20px #00f, 0 0 20px #00f;
+                margin-left: 15%;
+                margin-right: 15%;
+                background-image: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,255,0.2));
+            }
+            .button-container {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            .green-button {
+                background-color: transparent;
+                color: #fff;
+                padding: 10px;
+                border-radius: 5px;
+                border: 2px solid #0f0;
+                cursor: pointer;
+                box-shadow: inset 0 0 10px #0f0, 0 0 10px #0f0;
+                transition: transform 0.3s ease-in-out;
+            }
+            .green-button:hover {
+                transform: scale(1.1);
+            }
+        </style>
+
+
+    </h:head>
+    <h:body>
+        <h1 class="title-container">Page planning</h1>
+        <p:panel id="pnl" header="Mes trainings">
+            <h:form style="margin-left: 1%">
+                <p:commandButton value="Retour" onclick="window.location.href='home.xhtml'"/>
+            </h:form>
+            <h:panelGrid columns="3" cellpadding="7">
+                <p:dataTable value="#{planningBean.plannings}" var="planning">
+                    <p:column headerText="ID">
+                        <h:outputText value="#{planning.id}" />
+                    </p:column>
+                    <p:column headerText="Date">
+                        <h:outputText value="#{planning.date}" />
+                    </p:column>
+                    <p:column headerText="Heure Debut">
+                        <h:outputText value="#{planning.heured}" />
+                    </p:column>
+                    <p:column headerText="Heure Fin">
+                        <h:outputText value="#{planning.heuref}" />
+                    </p:column>
+                    <p:column headerText="Distance totale">
+                        <h:outputText value="#{planning.distance}km" />
+                    </p:column>
+                    <p:column headerText="Durée totale">
+                        <h:outputText value="#{planning.duree}mins" />
+                    </p:column>
+                    <p:column headerText="GPS">
+<!--                        <p:commandButton value="GPS000" styleClass="ui-button-raised ui-button-success" action="gmap.xhtml">-->
+<!--                            <f:param name="planning_id" value="#{planning.id}" />-->
+<!--                        </p:commandButton>-->
+<!--                        <p:commandButton value="GPS" styleClass="rounded-button ui-button-warning" onclick="window.location.href='gmap.xhtml'"/>-->
+                        <p:commandButton value="" icon="pi pi-bookmark" styleClass="rounded-button ui-button-secondary ui-button-outlined"
+                                         onclick="window.location.href='gmap.xhtml?planning_id=#{planning.id}'"/>
+                    </p:column>
+                </p:dataTable>
+            </h:panelGrid>
+        </p:panel>
+    </h:body>
+</f:view>
+</html>

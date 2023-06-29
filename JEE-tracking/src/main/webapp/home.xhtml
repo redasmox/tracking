@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Orbitron');
+
+        body {
+            background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .home-panel {
+            max-width: 800px;
+            margin: 0 auto;
+            margin-top: 10vh;
+            padding: 20px;
+            background: linear-gradient(to right, #141e30, #243b55);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 3px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .home-panel h2 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .ui-datatable .ui-datatable-header {
+            background-color: #141e30;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .title-container {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</h:head>
+<h:body>
+    <h1 class="title-container">Page Accueil</h1>
+    <div style="display: flex;justify-content: space-between">
+        <h:outputText value="Bienvenue, #{sessionScope.nom}" style="font-size: 20px; color: white;"/>
+        <h:form>
+            <p:commandButton action="#{loginBean.logout}" value="Logout" styleClass="ui-button-danger"/>
+        </h:form>
+    </div>
+    <p:messages showDetail="false" autoUpdate="true" closable="true"/>
+    <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
+    <br/>
+    <p:panel styleClass="home-panel" id="pnl" header="Liste des activités">
+        <h:form>
+            <p:growl id="msgs2" showDetail="true" skipDetailIfEqualsSummary="true"/>
+            Entrez le nom de l'activité:
+            <h:inputText value="#{activiteBean.nom}" style="margin-left: 2%;margin-right: 2%;height: 100%;"
+                         required="true" requiredMessage="Le nom de l'activité est obligatoire"/>
+            <p:commandButton update="msgs2" action="#{activiteBean.saveActivite}" value="Ajouter"
+                             styleClass="ui-button-flat"/>
+        </h:form>
+        <br/>
+        <p:panelGrid columns="3">
+            <p:dataTable value="#{activiteBean.activites}" var="activite" emptyMessage="Aucune activité trouvée">
+                <p:column headerText="ID">
+                    <h:outputText value="#{activite.id}"/>
+                </p:column>
+                <p:column headerText="Nom">
+                    <h:outputText value="#{activite.nom}"/>
+                </p:column>
+                <p:column headerText="Actions">
+                    <p:commandButton value="Détail" styleClass="ui-button-outlined"
+                                     action="planning.xhtml">
+                        <f:param name="activite_id" value="#{activite.id}"/>
+                    </p:commandButton>
+                    <p:commandButton update="msgs" style="margin-left: 1%;margin-right: 1%"
+                                     icon="pi pi-times" styleClass="rounded-button ui-button-danger ui-button-outlined"
+                                     action="#{stopBean.stopPlanning}"/>
+                    <p:commandButton update="msgs" icon="pi pi-check" styleClass="rounded-button ui-button-outlined"
+                                     action="#{planningBean.initPlannig}">
+                        <f:param name="activite_id" value="#{activite.id}"/>
+                    </p:commandButton>
+                    <p:commandButton value="Statistique" styleClass="ui-button-outlined ui-button-secondary"
+                                     style="margin-left: 1%;margin-right: 1%"
+                                     onclick="window.location.href='chart.xhtml?activite_id=#{activite.id}'"/>
+                </p:column>
+            </p:dataTable>
+        </p:panelGrid>
+    </p:panel>
+</h:body>
+</html>
